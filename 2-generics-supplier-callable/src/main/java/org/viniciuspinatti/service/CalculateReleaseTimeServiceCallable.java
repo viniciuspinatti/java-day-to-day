@@ -7,7 +7,7 @@ import java.time.Period;
 import java.util.concurrent.Callable;
 
 // Callable is an interface introduced in version 5 of Java and evolved as a functional interface in version 8.
-public class CalculateReleaseTimeService implements Callable<String> {
+public class CalculateReleaseTimeServiceCallable implements Callable<String> {
     private final Car car;
 
     // call() is designed to encapsulate a task that should be executed by another thread, such as the Runnable interface.
@@ -24,7 +24,7 @@ public class CalculateReleaseTimeService implements Callable<String> {
         return stringBuilder.toString();
     }
 
-    public CalculateReleaseTimeService(Car car) {
+    public CalculateReleaseTimeServiceCallable(Car car) {
         this.car = car;
     }
 }
