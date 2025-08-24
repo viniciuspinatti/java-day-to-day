@@ -7,9 +7,12 @@ import org.viniciuspinatti.utils.GenericExamples;
 
 public class Main {
   public static void main(String[] args) {
+    System.out.println("### Callable and Supplier ###");
     Car car = Car.createCar("GM", "Onix", LocalDate.parse("2014-01-01"), 180);
     car.executeCarInfoCallable();
     car.executeCarInfoSupplier();
+
+    System.out.println("### Java Generics ###");
 
     GenericExamples.needExplicitCastExample();
 

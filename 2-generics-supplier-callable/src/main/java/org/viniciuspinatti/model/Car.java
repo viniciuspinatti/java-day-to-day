@@ -27,6 +27,7 @@ public class Car {
 
   // Execution of one async task
   public void executeCarInfoCallable() {
+    System.out.println("Running executeCarInfoCallable...");
     ExecutorService executorService = Executors.newCachedThreadPool();
 
     // Each task in the chain follows the pattern “submit-get”. In a long chain, this produces
@@ -60,6 +61,7 @@ public class Car {
   // CompletableFuture API.
   // Some methods accept a Supplier as a parameter, such as the supplyAsync() method.
   public void executeCarInfoSupplier() {
+    System.out.println("Running executeCarInfoSupplier...");
     ExecutorService executorService = Executors.newCachedThreadPool();
 
     // In this case, a lambda expression defines the Supplier, but we may also define an
