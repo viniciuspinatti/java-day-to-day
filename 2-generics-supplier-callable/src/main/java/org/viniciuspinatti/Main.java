@@ -33,6 +33,7 @@ public class Main {
         "Wildcard lower example 1: "
             + GenericExamples.lowerBoundedWildCardExample(
                 Arrays.stream(numberArrayMatrix[0]).toList()));
+
     System.out.println(
         "Wildcard lower example 2: "
             + GenericExamples.lowerBoundedWildCardExample(
