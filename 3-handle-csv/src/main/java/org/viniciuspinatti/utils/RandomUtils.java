@@ -3,10 +3,7 @@ package org.viniciuspinatti.utils;
 import java.util.Random;
 
 public class RandomUtils {
-  public static String createRandomString() {
-    final int minStringLength = 5;
-    final int maxStringLength = 12;
-
+  public static String createRandomString(int minStringLength, int maxStringLength) {
     Random random = new Random();
 
     int length = random.nextInt((maxStringLength - minStringLength) + 1) + minStringLength;
