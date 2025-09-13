@@ -1,15 +1,20 @@
 package org.viniciuspinatti.service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import org.viniciuspinatti.utils.CsvUtils;
 import org.viniciuspinatti.utils.RandomUtils;
 
+/**
+ * This implementation works, but needs a lot of Java memory heap space. With a common -Xmx2g value
+ * it will not work for a 20mi of lines (about 518 mb file). It is necessary to increase for a
+ * -Xmx5g parameter. The main problem is try to allocate the full array in a list before populate
+ * the file.
+ */
 public class CsvService {
+  private static final String FILE_NAME = "csv_file.csv";
+
   private List<String[]> buildArrayLines(int numOfLines) {
     List<String[]> dataLines = new ArrayList<>(numOfLines);
     for (int i = 0; i < numOfLines; i++) {
@@ -25,28 +30,12 @@ public class CsvService {
     return dataLines;
   }
 
-  private String escapeSpecialCharacters(String data) {
-    if (data == null) {
-      throw new IllegalArgumentException("Input data cannot be null");
-    }
-    String escapedData = data.replaceAll("\\R", " ");
-    if (escapedData.contains(",") || escapedData.contains("\"") || escapedData.contains("'")) {
-      escapedData = escapedData.replace("\"", "\"\"");
-      escapedData = "\"" + escapedData + "\"";
-    }
-    return escapedData;
-  }
-
-  private String convertToCSV(String[] data) {
-    return Stream.of(data).map(this::escapeSpecialCharacters).collect(Collectors.joining(";"));
-  }
-
   public void createCsvFileWithRandomData(int numOfLines) {
     List<String[]> dataLines = buildArrayLines(numOfLines);
-    File csvOutputFile = new File("csv_file.csv");
+    File csvOutputFile = new File(FILE_NAME);
 
     try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
-      dataLines.stream().map(this::convertToCSV).forEach(pw::println);
+      dataLines.stream().map(CsvUtils::convertToCSV).forEach(pw::println);
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Error trying to generate csv file");
     }
