@@ -31,6 +31,7 @@ public class CsvService {
   }
 
   public void createCsvFileWithRandomData(int numOfLines) {
+    System.out.println("Creating csv file using array with all lines approach");
     List<String[]> dataLines = buildArrayLines(numOfLines);
     File csvOutputFile = new File(FILE_NAME);
 
@@ -39,5 +40,7 @@ public class CsvService {
     } catch (FileNotFoundException e) {
       throw new RuntimeException("Error trying to generate csv file");
     }
+
+    System.out.println("Finished csv file using array with all lines approach");
   }
 }

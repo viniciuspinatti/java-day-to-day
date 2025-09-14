@@ -21,6 +21,12 @@ spotless {
     }
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "org.viniciuspinatti.CSV"
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }

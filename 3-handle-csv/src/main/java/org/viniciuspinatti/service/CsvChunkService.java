@@ -14,7 +14,7 @@ import org.viniciuspinatti.utils.RandomUtils;
  * This implementation is better and needs less memory. The main reason is: it will not populate the
  * list with all lines in one iteration, it will use chunks of data. So the max quantity of lines in
  * each iteration to populate the file will be 100k. After each iteration, the list with 100k can be
- * removed from the memory. It works even with a -Xmx1g JVM parameter.
+ * removed from the memory. It works even with a -Xmx64m JVM parameter.
  */
 public class CsvChunkService {
   private static final String FILE_NAME = "csv_file.csv";
@@ -39,6 +39,8 @@ public class CsvChunkService {
 
   public void createCsvFileWithRandomData(int numOfLines, boolean shouldRemoveFileIfExists)
       throws IOException {
+    System.out.println("Creating csv file using chunk approach");
+
     int lineCount = 0;
     final int chunkSizeOfLines = 100_000;
 
@@ -75,5 +77,7 @@ public class CsvChunkService {
       lineCount += chunkSizeOfLines;
       chunkPart++;
     }
+
+    System.out.println("Finished csv file creation using chunk approach");
   }
 }
