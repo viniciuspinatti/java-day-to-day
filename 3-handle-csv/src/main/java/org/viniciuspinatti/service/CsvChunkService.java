@@ -17,7 +17,7 @@ import org.viniciuspinatti.utils.RandomUtils;
  * removed from the memory. It works even with a -Xmx64m JVM parameter.
  */
 public class CsvChunkService {
-  private static final String FILE_NAME = "csv_file.csv";
+  private static final String FILE_NAME = "output/csv_file.csv";
 
   private List<String[]> buildArrayLines(int chunkPart) {
     final int chunkSize = 100_000;
@@ -51,6 +51,17 @@ public class CsvChunkService {
     }
 
     File csvOutputFile = new File(FILE_NAME);
+
+    if (csvOutputFile.getParentFile() != null) {
+      csvOutputFile.getParentFile().mkdirs();
+    }
+
+    if (csvOutputFile.createNewFile()) {
+      System.out.println("File created: " + csvOutputFile.getAbsolutePath());
+    } else {
+      System.out.println(
+          "File already exists or could not be created: " + csvOutputFile.getAbsolutePath());
+    }
 
     int chunkPart = 0;
 

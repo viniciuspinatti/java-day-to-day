@@ -7,13 +7,12 @@ import org.viniciuspinatti.utils.CsvUtils;
 import org.viniciuspinatti.utils.RandomUtils;
 
 /**
- * This implementation works, but needs a lot of Java memory heap space. With a common -Xmx2g value
- * it will not work for a 20mi of lines (about 518 mb file). It is necessary to increase for a
- * -Xmx5g parameter. The main problem is try to allocate the full array in a list before populate
- * the file.
+ * This implementation works, but needs a lot of Java memory heap space. For about 20mi of lines
+ * (~518 mb file) it will require at least -Xmx5g parameter to avoid memory heap errors. The main
+ * problem is try to allocate the full array in a list before populate the file.
  */
 public class CsvService {
-  private static final String FILE_NAME = "csv_file.csv";
+  private static final String FILE_NAME = "output/csv_file.csv";
 
   private List<String[]> buildArrayLines(int numOfLines) {
     List<String[]> dataLines = new ArrayList<>(numOfLines);
@@ -30,10 +29,22 @@ public class CsvService {
     return dataLines;
   }
 
-  public void createCsvFileWithRandomData(int numOfLines) {
+  public void createCsvFileWithRandomData(int numOfLines) throws IOException {
     System.out.println("Creating csv file using array with all lines approach");
     List<String[]> dataLines = buildArrayLines(numOfLines);
+
     File csvOutputFile = new File(FILE_NAME);
+
+    if (csvOutputFile.getParentFile() != null) {
+      csvOutputFile.getParentFile().mkdirs();
+    }
+
+    if (csvOutputFile.createNewFile()) {
+      System.out.println("File created: " + csvOutputFile.getAbsolutePath());
+    } else {
+      System.out.println(
+          "File already exists or could not be created: " + csvOutputFile.getAbsolutePath());
+    }
 
     try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
       dataLines.stream().map(CsvUtils::convertToCSV).forEach(pw::println);
